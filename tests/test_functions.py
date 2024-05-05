@@ -1,3 +1,3 @@
-from bioage_framework.src import functions
-from bioage_framework.src import classes
+from bioage_framework import functions
+from bioage_framework import classes
 

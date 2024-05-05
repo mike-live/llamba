@@ -12,8 +12,5 @@ class Connector:
         self.bioage_model = bioage_model
         self.chat_model = chat_model
 
-    def analyze(self, data):
-        
-
-    
-    
+    def analyze(self, task):
+        ...
