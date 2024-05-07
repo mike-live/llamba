@@ -35,10 +35,14 @@ class ChatModel:
         data_input_json = json.dumps(self.data_input).encode('utf-8')
         
         num_tries = 2
-        for _ in range(num_tries):
-            response = rq.post(self.url, headers=self.headers, data=data_input_json, timeout=30)
-            if response.status_code != 405:
-                break
+
+        try:
+            for _ in range(num_tries):
+                response = rq.post(self.url, headers=self.headers, data=data_input_json, timeout=30)
+                if response.status_code != 405:
+                    break
+        except:
+            return False, "Incorrect bot configuration. Check API key, ID, URL."
 
         try:
             data = response.json()
