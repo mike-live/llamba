@@ -1,6 +1,5 @@
 import json
 import requests as rq
-import aiohttp
 
 class ChatModel:
     def __init__(self, url: str, api_key: str, chatbot_id: str):
@@ -34,7 +33,7 @@ class ChatModel:
         self.prepare_query(prompt)
         data_input_json = json.dumps(self.data_input).encode('utf-8')
         
-        num_tries = 2
+        num_tries = 3
 
         try:
             for _ in range(num_tries):
@@ -57,14 +56,10 @@ class ChatModel:
             print(response.text)
             return False, f"JSON decode error. Error:{response.status_code}"
 
-class Task:
-    def __init__(self):
-        ...
-
 class Connector:
     def __init__(self, bioage_model: object, chat_model: ChatModel):
         self.bioage_model = bioage_model
         self.chat_model = chat_model
 
-    def analyze(self, task):
+    def analyze(self, data):
         ...

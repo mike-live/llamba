@@ -1,6 +1,5 @@
 from bioage_framework import functions
 from bioage_framework import classes
-import config
 
 # Test for local machine only, since API keys can't be transferred to github safely
 # Possible workaround -- self-hosted test runner
