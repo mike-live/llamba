@@ -55,11 +55,3 @@ class ChatModel:
             print(data_input_json)
             print(response.text)
             return False, f"JSON decode error. Error:{response.status_code}"
-
-class Connector:
-    def __init__(self, bioage_model: object, chat_model: ChatModel):
-        self.bioage_model = bioage_model
-        self.chat_model = chat_model
-
-    def analyze(self, data):
-        ...
