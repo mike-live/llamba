@@ -1,8 +1,8 @@
-# llamba &mdash; a bridge between a BioAge predictor and explainer
+# llamba &mdash; a bridge between a BioAge estimator and explainer
 
 
 ## What is it?
-**llamba** is a Python package that acts as a connector between a model that predicts a person's biological age and a chat model that explains the results. It is developed in order to provide more clarity to users of various BioAge predictors.
+**llamba** is a Python package that acts as a connector between a model that estimates a person's biological age and a chat model that explains the results. It is developed in order to provide more clarity to users of various BioAge predictors.
 
 ```mermaid
 sequenceDiagram
@@ -10,7 +10,7 @@ sequenceDiagram
     participant C as llamba
     User-->>C: 1. Request with data
     create participant AE as BioAge estimator
-    C-->>AE: 2. User data to predict BioAge
+    C-->>AE: 2. User data to estimate BioAge
     destroy AE
     AE-->>C: 3. BioAge, SHAP values
     create participant E as Explainer
@@ -40,7 +40,7 @@ The diagram above explains the expected workflow of llamba:
 
 ## Main features
 
-- Supports various BioAge prediction models due to a special wrapper class that requires the model to implement necessary methods.
+- Supports various BioAge estimation models due to a special wrapper class that requires the model to implement necessary methods.
 - Supports various chatbot explainers.
 - Has an ability to show graphs where users can see their results compared to other participants.
 
