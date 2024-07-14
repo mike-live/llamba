@@ -1,5 +1,5 @@
-from bioage_framework import chat_model
-from bioage_framework import connector
+from llamba import chat_model
+from llamba import connector
 
 # Test for local machine only, since API keys can't be transferred to github safely
 # Possible workaround -- self-hosted test runner

@@ -1,11 +1,8 @@
 import json
 import requests as rq
 
-class ChatModel:
-    def __init__(self, url: str, api_key: str, chatbot_id: str):
-        self.url = url
-        self.api_key = api_key
-        self.chatbot_id = chatbot_id
+class BaseModel:
+    def __init__(self):
         self.system_message = [{
             'role': 'system',
             'content':
@@ -13,8 +10,24 @@ class ChatModel:
                 I want you to act as an expert in gerontology. Answer prompts in the same language they are asked.
                 '''
         }]
+
+    def prepare_query(self, prompt):
+        data_input = {
+            "messages": self.system_message + [{'role': 'user', 'content': f'{prompt}'}]
+        }
+        self.data_input = data_input
+
+    def query(self, prompt):
+        self.prepare_query(prompt)
+        return f'You have a very nice prompt: {self.data_input}.'
+
+class ChatbaseModel(BaseModel):
+    def __init__(self, url: str, api_key: str, chatbot_id: str):
+        self.url = url
+        self.api_key = api_key
+        self.chatbot_id = chatbot_id
         self.headers = {
-            'Authorization': f'Bearer {api_key}',
+            'Authorization': f'Bearer {self.api_key}',
             'Content-Type': 'application/json',
             'accept': 'application/json',
             'charset': 'utf-8'
@@ -55,3 +68,9 @@ class ChatModel:
             print(data_input_json)
             print(response.text)
             return False, f"JSON decode error. Error:{response.status_code}"
+
+class LocalhostModel(BaseModel):
+    def __init__(self, url: str):
+        self.url = url
+
+    
