@@ -52,7 +52,19 @@ You can download the sources, build them using `wheel` and install a local packa
 
 ## Usage
 
-You can find the usage example in the [Sample analysis](./samples/sample_analysis.ipynb) notebook.
+A popular solution is to run an LLM on localhost (like [ollama](https://ollama.com/)), so we are working on implementing the support for it.
+
+```python
+WIP
+```
+
+Another popular way to utilize LLMs is to have a model stored locally and run inference using something like [huggingface API](https://huggingface.co/). We are working on a way to support locally stored LLMs as well.
+
+```python
+WIP
+```
+
+Currently, there is implementation for a Chatbase chatbot. You can find the usage example in the [Sample analysis](./samples/sample_analysis.ipynb) notebook.
 
 ## Dependencies
 
