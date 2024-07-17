@@ -66,8 +66,8 @@ You can find the usage example in the [Sample analysis](./samples/sample_analysi
 
 1. Adding a more convenient example with a wrapper for llama running on the localhost.
 2. Adding a dummy example for testing purposes.
+3. Adding wrapper for ChatGPT model.
 
-3. 
 ## License
 
 Under construction.
