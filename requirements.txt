@@ -3,6 +3,7 @@ matplotlib
 numpy
 pandas
 scikit-learn
+seaborn
 torch
 pytorch-lightning
 scipy==1.10.1
