@@ -7,7 +7,7 @@ setup(
     description='Library to merge BioAge models with LLMs',
     author='Sergei Tikhomirov',
     install_requires=['requests', 'numpy', 'pandas', 'torch', 'pytorch-lightning', 'scipy==1.10.1', 
-                      'omegaconf', 'scikit-learn', 'shap', 'pytorch-widedeep==1.1.1'],
+                      'omegaconf', 'scikit-learn', 'shap', 'pytorch-widedeep==1.1.1', 'seaborn'],
     setup_requires=['pytest-runner'],
     tests_require=['pytest==8.2.0'],
     test_suite='tests',
