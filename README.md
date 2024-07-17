@@ -62,6 +62,12 @@ You can find the usage example in the [Sample analysis](./samples/sample_analysi
 - [Shap](https://github.com/shap/shap) &mdash; allows to see how some parameters affect the end result for an ML model.
 - [PyTorch](https://pytorch.org/) &mdash; allows to work with ML models.
 
+## TODO
+
+1. Adding a more convenient example with a wrapper for llama running on the localhost.
+2. Adding a dummy example for testing purposes.
+
+3. 
 ## License
 
 Under construction.
