@@ -23,6 +23,7 @@ class BaseModel:
 
 class ChatbaseModel(BaseModel):
     def __init__(self, url: str, api_key: str, chatbot_id: str):
+        super(ChatbaseModel, self).__init__()
         self.url = url
         self.api_key = api_key
         self.chatbot_id = chatbot_id
@@ -71,6 +72,7 @@ class ChatbaseModel(BaseModel):
 
 class LocalhostModel(BaseModel):
     def __init__(self, url: str):
+        super(LocalhostModel, self).__init__()
         self.url = url
 
     
