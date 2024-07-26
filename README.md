@@ -54,7 +54,7 @@ You can download the sources, build them using `wheel` and install a local packa
 
 ### Test
 
-To test that the library work, you can run the following notebook sample:
+To test that the library works, you can run the following notebook sample:
 
 ```python
 from llamba.chat_model import BaseModel
