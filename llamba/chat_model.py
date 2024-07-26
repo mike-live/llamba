@@ -2,8 +2,9 @@ import json
 import requests as rq
 
 class BaseModel:
-    def __init__(self):
-        self.system_message = [{
+    def __init__(self): pass
+    def get_system_message(self):
+        return [{
             'role': 'system',
             'content':
                 '''
@@ -13,7 +14,7 @@ class BaseModel:
 
     def prepare_query(self, prompt):
         data_input = {
-            "messages": self.system_message + [{'role': 'user', 'content': f'{prompt}'}]
+            "messages": self.get_system_message() + [{'role': 'user', 'content': f'{prompt}'}]
         }
         self.data_input = data_input
 
@@ -35,8 +36,9 @@ class ChatbaseModel(BaseModel):
         }
 
     def prepare_query(self, prompt):
+        super(ChatbaseModel, self).__init__()
         data_input = {
-            "messages": self.system_message + [{'role': 'user', 'content': f'{prompt}'}],
+            "messages": self.get_system_message() + [{'role': 'user', 'content': f'{prompt}'}],
             "chatbotId": self.chatbot_id,
             "stream": False,
             "temperature": 0

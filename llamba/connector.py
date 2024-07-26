@@ -16,8 +16,6 @@ class Connector:
         answer = ''
         data['bio_age'] = self.bioage_model.inference(data.drop(['Age'], axis=1).T)
         acceleration = data['bio_age'].values - data['Age'].values
-        print(data)
-        print(acceleration)
         answer += 'You biological age is {age} and your aging acceleration is {acceleration}, which means '.format(age=round(data['bio_age'].values[0]), acceleration=round(acceleration[0]))
 
         if (acceleration > 1):

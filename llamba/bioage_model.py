@@ -1,8 +1,9 @@
 import pandas as pd
 import torch
+from torch import nn
 
 class BioAgeModel:
-    def __init__(self, model: any):
+    def __init__(self, model: nn.Module):
         self.model = model
 
     def inference(self, data: pd.DataFrame):
