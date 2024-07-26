@@ -16,7 +16,10 @@ class Connector:
         answer = ''
         data['bio_age'] = self.bioage_model.inference(data.drop(['Age'], axis=1).T)
         acceleration = data['bio_age'].values - data['Age'].values
-        answer += 'You biological age is {age} and your aging acceleration is {acceleration}, which means '.format(age=round(data['bio_age'].values[0]), acceleration=round(acceleration[0]))
+        answer += 'Your bioage age is {age} and your aging acceleration \
+            is {acceleration}, which means ' \
+            .format(age=round(data['bio_age'].values[0]), 
+                    acceleration=round(acceleration[0]))
 
         if (acceleration > 1):
             answer += 'you are ageing quicker than normal.\n\n'
@@ -58,7 +61,8 @@ class Connector:
                 level = 'an increased'
             else:
                 level = 'a reduced'
-            prompt = f'What is {feats[i]}? What does {level} level of {feats[i]} mean?'
+            prompt = f'What is {feats[i]}? 
+            What does {level} level of {feats[i]} mean?'
             res = self.chat_model.query(prompt=prompt)[1]
             answer += res
             answer += '\n\n'
