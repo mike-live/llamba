@@ -6,10 +6,11 @@ class BioAgeModel:
     def __init__(self, model: nn.Module):
         self.model = model
 
-    def inference(self, data: pd.DataFrame):
+    def inference(self, device: torch.device, data: pd.DataFrame):
+        self.model.to(device)
         self.model.eval()
-        try:
+        if str(device) == "cuda":
+            res = self.model(torch.from_numpy(data.values)).cuda().detach().numpy().ravel()
+        else:
             res = self.model(torch.from_numpy(data.values)).cpu().detach().numpy().ravel()
-        except:
-            res = 55
         return res

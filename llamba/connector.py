@@ -1,23 +1,23 @@
 from sklearn.metrics import mean_absolute_error
 import pandas as pd
 import shap
+import torch
 import numpy as np
 
 from llamba.chat_model import BaseModel
 from llamba.bioage_model import BioAgeModel
 from llamba.plots import kde_plot
 
-class Connector:
+class LlambaConnector:
     def __init__(self, bioage_model: BioAgeModel, chat_model: BaseModel):
         self.bioage_model = bioage_model
         self.chat_model = chat_model
 
-    def analyze(self, data: pd.DataFrame, **kwargs):
+    def analyze(self, data: pd.DataFrame, device=torch.device('cpu'), **kwargs):
         answer = ''
-        data['bio_age'] = self.bioage_model.inference(data.drop(['Age'], axis=1).T)
+        data['bio_age'] = self.bioage_model.inference(data=data.drop(['Age'], axis=1), device=device)
         acceleration = data['bio_age'].values - data['Age'].values
-        answer += 'Your bioage age is {age} and your aging acceleration \
-            is {acceleration}, which means ' \
+        answer += 'Your bioage age is {age} and your aging acceleration is {acceleration}, which means ' \
             .format(age=round(data['bio_age'].values[0]), 
                     acceleration=round(acceleration[0]))
 
@@ -31,7 +31,7 @@ class Connector:
         shap_dict = kwargs.get('shap_dict', None)
 
         if shap_dict == None:
-            return
+            return {"analysis": answer, "acceleration": acceleration[0]}
         
         answer += 'Here is some more information about your data. \n\n'
         
@@ -61,8 +61,7 @@ class Connector:
                 level = 'an increased'
             else:
                 level = 'a reduced'
-            prompt = f'What is {feats[i]}? 
-            What does {level} level of {feats[i]} mean?'
+            prompt = f'What is {feats[i]}? What does {level} level of {feats[i]} mean?'
             res = self.chat_model.query(prompt=prompt)[1]
             answer += res
             answer += '\n\n'
