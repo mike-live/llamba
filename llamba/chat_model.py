@@ -1,9 +1,10 @@
 import json
 import requests as rq
 
-class BaseModel:
-    def __init__(self):
-        self.system_message = [{
+class AbstractChatModel:
+    def __init__(self): pass
+    def get_system_message(self):
+        return [{
             'role': 'system',
             'content':
                 '''
@@ -13,7 +14,7 @@ class BaseModel:
 
     def prepare_query(self, prompt):
         data_input = {
-            "messages": self.system_message + [{'role': 'user', 'content': f'{prompt}'}]
+            "messages": self.get_system_message() + [{'role': 'user', 'content': f'{prompt}'}]
         }
         self.data_input = data_input
 
@@ -21,7 +22,7 @@ class BaseModel:
         self.prepare_query(prompt)
         return f'You have a very nice prompt: {self.data_input}.'
 
-class ChatbaseModel(BaseModel):
+class ChatbaseModel(AbstractChatModel):
     def __init__(self, url: str, api_key: str, chatbot_id: str):
         super(ChatbaseModel, self).__init__()
         self.url = url
@@ -35,8 +36,9 @@ class ChatbaseModel(BaseModel):
         }
 
     def prepare_query(self, prompt):
+        super(ChatbaseModel, self).__init__()
         data_input = {
-            "messages": self.system_message + [{'role': 'user', 'content': f'{prompt}'}],
+            "messages": self.get_system_message() + [{'role': 'user', 'content': f'{prompt}'}],
             "chatbotId": self.chatbot_id,
             "stream": False,
             "temperature": 0
@@ -70,7 +72,7 @@ class ChatbaseModel(BaseModel):
             print(response.text)
             return False, f"JSON decode error. Error:{response.status_code}"
 
-class LocalhostModel(BaseModel):
+class LocalhostModel(AbstractChatModel):
     def __init__(self, url: str):
         super(LocalhostModel, self).__init__()
         self.url = url
