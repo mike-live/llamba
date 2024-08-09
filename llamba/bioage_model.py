@@ -6,7 +6,7 @@ class BioAgeModel:
     def __init__(self, model: nn.Module):
         self.model = model
 
-    def inference(self, device: torch.device, data: pd.DataFrame):
+    def inference(self, data: pd.DataFrame, device: torch.device):
         self.model.to(device)
         self.model.eval()
         if str(device) == "cuda":

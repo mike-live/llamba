@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name='llamba',
     packages=find_packages(include=['llamba']),
-    version='0.1.2',
+    version='0.1.3',
     description='Library to merge BioAge models with LLMs',
     author='Sergei Tikhomirov',
     install_requires=['requests', 'numpy', 'pandas', 'torch', 'pytorch-lightning', 'scipy==1.10.1', 

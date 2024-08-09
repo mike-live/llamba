@@ -4,12 +4,12 @@ import shap
 import torch
 import numpy as np
 
-from llamba.chat_model import BaseModel
+from llamba.chat_model import AbstractChatModel
 from llamba.bioage_model import BioAgeModel
 from llamba.plots import kde_plot
 
 class LlambaConnector:
-    def __init__(self, bioage_model: BioAgeModel, chat_model: BaseModel):
+    def __init__(self, bioage_model: BioAgeModel, chat_model: AbstractChatModel):
         self.bioage_model = bioage_model
         self.chat_model = chat_model
 
@@ -17,8 +17,8 @@ class LlambaConnector:
         answer = ''
         data['bio_age'] = self.bioage_model.inference(data=data.drop(['Age'], axis=1), device=device)
         acceleration = data['bio_age'].values - data['Age'].values
-        answer += 'Your bioage age is {age} and your aging acceleration is {acceleration}, which means ' \
-            .format(age=round(data['bio_age'].values[0]), 
+        answer += 'Your bioage is {bio_age} and your aging acceleration is {acceleration}, which means ' \
+            .format(bio_age=round(data['bio_age'].values[0]), 
                     acceleration=round(acceleration[0]))
 
         if (acceleration > 1):
