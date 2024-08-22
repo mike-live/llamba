@@ -1,4 +1,4 @@
-from llamba.chat_model import ChatbaseModel
+from llamba.chatmodel_wrappers.chatbase import ChatbaseModel
 
 # Test for local machine only, since API keys can't be transferred to github safely
 # Possible workaround -- self-hosted test runner
