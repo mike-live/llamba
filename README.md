@@ -52,6 +52,48 @@ You can download the sources, build them using `wheel` and install a local packa
 
 ## Usage
 
+### Test
+
+To test that the library works, you can run the following notebook sample:
+
+```python
+from llamba.chat_model import BaseModel
+from llamba.bioage_model import BioAgeModel
+from llamba.connector import LlambaConnector
+import torch
+from torch import nn
+import pandas as pd
+import numpy as np
+
+# Prepare data to analyze
+num_features = 10
+features = np.random.randint(low=1, high=150, size=num_features).astype(np.float32)
+age =  np.random.randint(low=10, high=90)
+
+data = pd.DataFrame([{f'Feature_{i}' : features[i] for i in range(num_features)}])
+data['Age'] = age
+
+# Prepare a BioAge model
+class DummyBioAgeModel(nn.Module): 
+    def __init__(self): 
+        super(DummyBioAgeModel, self).__init__()
+        self.linear1 = torch.nn.Linear(10, 1)
+
+    def forward(self, x):
+        x = self.linear1(x)
+        return abs(x)
+
+model = DummyBioAgeModel()
+bioage_model = BioAgeModel(model)
+
+# Prepare a Chatbot model
+chat_model = BaseModel()
+connector = LlambaConnector(bioage_model=bioage_model, chat_model=chat_model)
+
+res = connector.analyze(data)
+print(res['analysis'])
+```
+
 ### Locally hosted LLM
 
 A popular solution is to run an LLM on localhost (like [ollama](https://ollama.com/)), so we are working on implementing the support for it.

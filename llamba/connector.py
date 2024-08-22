@@ -1,24 +1,25 @@
 from sklearn.metrics import mean_absolute_error
 import pandas as pd
 import shap
+import torch
 import numpy as np
 
-from llamba.chat_model import BaseModel
+from llamba.chat_model import AbstractChatModel
 from llamba.bioage_model import BioAgeModel
 from llamba.plots import kde_plot
 
-class Connector:
-    def __init__(self, bioage_model: BioAgeModel, chat_model: BaseModel):
+class LlambaConnector:
+    def __init__(self, bioage_model: BioAgeModel, chat_model: AbstractChatModel):
         self.bioage_model = bioage_model
         self.chat_model = chat_model
 
-    def analyze(self, data: pd.DataFrame, **kwargs):
+    def analyze(self, data: pd.DataFrame, device=torch.device('cpu'), **kwargs):
         answer = ''
-        data['bio_age'] = self.bioage_model.inference(data.drop(['Age'], axis=1).T)
+        data['bio_age'] = self.bioage_model.inference(data=data.drop(['Age'], axis=1), device=device)
         acceleration = data['bio_age'].values - data['Age'].values
-        print(data)
-        print(acceleration)
-        answer += 'You biological age is {age} and your aging acceleration is {acceleration}, which means '.format(age=round(data['bio_age'].values[0]), acceleration=round(acceleration[0]))
+        answer += 'Your bioage is {bio_age} and your aging acceleration is {acceleration}, which means ' \
+            .format(bio_age=round(data['bio_age'].values[0]), 
+                    acceleration=round(acceleration[0]))
 
         if (acceleration > 1):
             answer += 'you are ageing quicker than normal.\n\n'
@@ -30,7 +31,7 @@ class Connector:
         shap_dict = kwargs.get('shap_dict', None)
 
         if shap_dict == None:
-            return
+            return {"analysis": answer, "acceleration": acceleration[0]}
         
         answer += 'Here is some more information about your data. \n\n'
         
