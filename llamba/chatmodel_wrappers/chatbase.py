@@ -1,9 +1,9 @@
 import json
 import requests as rq
 
-from llamba.chat_model import BaseModel
+from llamba.chat_model import AbstractChatModel
 
-class ChatbaseModel(BaseModel):
+class ChatbaseModel(AbstractChatModel):
     def __init__(self, url: str, api_key: str, chatbot_id: str):
         super(ChatbaseModel, self).__init__()
         self.url = url
@@ -17,8 +17,9 @@ class ChatbaseModel(BaseModel):
         }
 
     def prepare_query(self, prompt):
+        super(ChatbaseModel, self).__init__()
         data_input = {
-            "messages": self.get_system_message() + [{'role': 'user', 'content': f'{prompt}'}],
+            "messages": [{'role': 'system', 'content': self.get_system_message()}] + [{'role': 'user', 'content': f'{prompt}'}],
             "chatbotId": self.chatbot_id,
             "stream": False,
             "temperature": 0

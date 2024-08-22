@@ -1,0 +1,33 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+name = "llamba"
+version = "0.1.11"
+description = "A library to merge BioAge models with LLMs!"
+readme = "README.md"
+authors = [
+  "Sergei Tikhomirov <sergey.zr.co.uk@gmail.com>", 
+  "Mike Krivonosov <krivonosov@itmm.unn.ru>"
+]
+maintainers = [
+    "Sergei Tikhomirov <sergey.zr.co.uk@gmail.com>", 
+    "Mike Krivonosov <krivonosov@itmm.unn.ru>"
+]
+repository = "https://github.com/mike-live/llamba"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.12"
+asyncio = "*"
+numpy = "^1" 
+pandas = "*"
+torc = "*"
+pytorch-lightning = "*"
+scipy = "1.10.1"
+omegaconf = "*"
+scikit-learn = "*"
+shap = "*"
+pytorch-widedeep = "1.1.1" 
+seaborn = "*"

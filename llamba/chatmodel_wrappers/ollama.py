@@ -1,54 +1,56 @@
 import json
 import requests as rq
-import subprocess
 
-from llamba.chat_model import BaseModel
+from llamba.chat_model import AbstractChatModel
 
-class OllamaModel(BaseModel):
-    def __init__(self, model: str, url="localhost:11434"):
+class OllamaModel(AbstractChatModel):
+    def __init__(self, model: str, url="http://127.0.0.1:11434/api/generate"):
         super(OllamaModel, self).__init__()
         self.url = url
         self.model = model
 
     def check_connection(self):
-        connection = subprocess.run(["curl", f"{self.url}"], capture_output=True)
-        if connection.stdout != "Ollama is running":
+        r = rq.post(
+            self.url,
+            json={"model": self.model},
+        )
+        r.raise_for_status()
+        data = r.json()
+        if data['done'] != True:
             return False
         return True
 
-    def prepare_query(self, prompt: str, suffix: str, kwargs):
+    def prepare_query(self, prompt: str, kwargs):
         data_input = {
             "model": self.model,
             "prompt": prompt,
-            "suffix": suffix,
-            "format": "json",
+            "system": self.get_system_message(),
+            "stream": False
         }
         for parameter in kwargs:
             data_input[parameter] = kwargs.get(parameter, None)
         self.data_input = data_input
 
-    def query(self, prompt: str, 
-              suffix: str, 
+    def query(self, prompt: str,
               **kwargs):
-        kwargs['system'] = self.get_system_message()
-        self.prepare_query(prompt, suffix, kwargs)
-        #data_input_json = json.dumps(self.data_input).encode('utf-8')
-        
+        self.prepare_query(prompt, kwargs)
         num_tries = 3
-
         try:
             for _ in range(num_tries):
-                response = rq.post(self.url + '/api/generate', json=self.data_input, stream=False)
+                response = rq.post(self.url, 
+                                   json=self.data_input,
+                                   timeout=30)
                 response.raise_for_status()
                 if response.status_code != 405:
                     break
-        except:
+        except Exception as e:
+            print(e)
             return False, "Incorrect bot configuration."
-
+        
         try:
             data = response.json()
             if response.status_code != 200:
-                return False, f"Error:{response.status_code}({data['done']})"
+                return False, f"Error:{response.status_code} ({data['done_reason']})"
             bot_answer = data['response']
             return True, bot_answer
         except rq.exceptions.JSONDecodeError as e:
