@@ -20,7 +20,6 @@ repository = "https://github.com/mike-live/llamba"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.12"
-asyncio = "*"
 numpy = "^1" 
 pandas = "*"
 torc = "*"
