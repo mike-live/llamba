@@ -1,4 +1,3 @@
-import json
 import requests as rq
 
 from llamba.chat_model import AbstractChatModel
