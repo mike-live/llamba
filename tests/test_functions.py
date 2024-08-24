@@ -6,34 +6,39 @@ from torch import nn
 import pandas as pd
 import numpy as np
 
-# Test for local machine only, since API keys can't be transferred to github safely
-# Possible workaround -- self-hosted test runner
-def test_query():
-    # Prepare data to analyze
-    num_features = 10
-    features = np.random.randint(low=1, high=150, size=num_features).astype(np.float32)
-    age =  np.random.randint(low=10, high=90)
+import unittest
 
-    data = pd.DataFrame([{f'Feature_{i}' : features[i] for i in range(num_features)}])
-    data['Age'] = age
+class TestAnalyzeFunction(unittest.TestCase):
+    def test_query(self):
+        # Prepare data to analyze
+        num_features = 10
+        features = np.random.randint(low=1, high=150, size=num_features).astype(np.float32)
+        age =  np.random.randint(low=10, high=90)
 
-    # Prepare a BioAge model
-    class DummyBioAgeModel(nn.Module): 
-        def __init__(self): 
-            super(DummyBioAgeModel, self).__init__()
-            self.linear1 = torch.nn.Linear(10, 1)
+        data = pd.DataFrame([{f'Feature_{i}' : features[i] for i in range(num_features)}])
+        data['Age'] = age
 
-        def forward(self, x):
-            x = self.linear1(x)
-            return abs(x)
+        # Prepare a BioAge model
+        class DummyBioAgeModel(nn.Module): 
+            def __init__(self): 
+                super(DummyBioAgeModel, self).__init__()
+                self.linear1 = torch.nn.Linear(10, 1)
 
-    model = DummyBioAgeModel()
-    bioage_model = BioAgeModel(model)
+            def forward(self, x):
+                x = self.linear1(x)
+                return abs(x)
 
-    # Prepare a Chatbot model
-    class DummyChatModel(AbstractChatModel): pass
-    chat_model = DummyChatModel()
-    connector = LlambaConnector(bioage_model=bioage_model, chat_model=chat_model)
+        model = DummyBioAgeModel()
+        bioage_model = BioAgeModel(model)
 
-    res = connector.analyze(data)
-    print(res['analysis'])
+        # Prepare a Chatbot model
+        class DummyChatModel(AbstractChatModel): pass
+        chat_model = DummyChatModel()
+        connector = LlambaConnector(bioage_model=bioage_model, chat_model=chat_model)
+
+        res = connector.analyze(data)
+        print(res['analysis'])
+        self.assertNotEqual(res, "")
+
+if __name__ == '__main__':
+    unittest.main()
