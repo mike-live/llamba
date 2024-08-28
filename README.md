@@ -50,8 +50,6 @@ You can download the sources and install them via Poetry by running the followin
 
 `poetry install`
 
-You can 
-
 ## Usage
 
 ### Test
@@ -95,6 +93,10 @@ connector = LlambaConnector(bioage_model=bioage_model, chat_model=chat_model)
 res = connector.analyze(data)
 print(res['analysis'])
 ```
+
+You can also run a test using pytest:
+
+`pytest run`
 
 ### Locally hosted LLM
 
