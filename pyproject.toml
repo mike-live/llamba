@@ -30,3 +30,6 @@ scikit-learn = "*"
 shap = "*"
 pytorch-widedeep = "1.1.1" 
 seaborn = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"

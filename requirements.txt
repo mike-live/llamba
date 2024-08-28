@@ -11,3 +11,4 @@ scipy==1.10.1
 omegaconf
 tqdm
 shap
+pytest

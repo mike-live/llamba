@@ -46,9 +46,11 @@ The diagram above explains the expected workflow of llamba:
 
 ## Installation
 
-You can download the sources, build them using `wheel` and install a local package, but the more common way is to use `pip`:
+You can download the sources and install them via Poetry by running the following command in the library's root directory:
 
-`pip install llamba`
+`poetry install`
+
+You can 
 
 ## Usage
 
@@ -96,11 +98,13 @@ print(res['analysis'])
 
 ### Locally hosted LLM
 
-A popular solution is to run an LLM on localhost (like [ollama](https://ollama.com/)), so we are working on implementing the support for it.
+A popular solution is to run an LLM on localhost (like [ollama](https://ollama.com/)), so we have implemented the support for it.
 
-```python
-WIP
-```
+. Run `ollama serve` in your terminal.
+
+. In a separate terminal, run `ollama run <model_name>`, where `<model_name>` is a name of one of the support ollama models.
+
+. Proceed with creating a workflow as shown in the [Ollama sample](./samples/immunoage_meet_ollama.ipynb) notebook.
 
 ### Locally stored LLM
 
@@ -112,7 +116,7 @@ WIP
 
 ### Externally hosted LLM
 
-Currently, there is implementation for a Chatbase chatbot. You can find the usage example in the [Sample analysis](./samples/sample_analysis.ipynb) notebook.
+Currently, there is implementation for a Chatbase chatbot. You can find the usage example in the [Chatbase analysis](./samples/immunoage_meet_chatbase.ipynb) notebook.
 
 ## Dependencies
 
