@@ -94,9 +94,9 @@ res = connector.analyze(data)
 print(res['analysis'])
 ```
 
-You can also run a test using pytest:
+You can also run a test by executing the following command in the library root directory:
 
-`pytest run`
+`pytest`
 
 ### Locally hosted LLM
 
