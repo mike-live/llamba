@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "llamba"
-version = "0.1.14"
+version = "0.1.15"
 description = "A library to merge BioAge models with LLMs!"
 readme = "README.md"
 authors = [
@@ -22,7 +22,7 @@ repository = "https://github.com/mike-live/llamba"
 python = ">=3.8,<3.12"
 numpy = "^1" 
 pandas = "*"
-torch = "*"
+torch = "2.2.2"
 pytorch-lightning = "*"
 scipy = "1.10.1"
 omegaconf = "*"
@@ -30,3 +30,6 @@ scikit-learn = "*"
 shap = "*"
 pytorch-widedeep = "1.1.1" 
 seaborn = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
