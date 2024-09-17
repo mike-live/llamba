@@ -1,4 +1,5 @@
 import requests as rq
+from http import HTTPStatus
 
 from llamba.chat_model import AbstractChatModel
 
@@ -26,3 +27,17 @@ class ChatbaseModel(AbstractChatModel):
             "temperature": 0
         }
         self.data_input = data_input
+
+    def handle_response(self):        
+        try:
+            data = self.response.json()
+            if self.response.status_code != HTTPStatus.OK:
+                return False, f"Error:{self.response.status_code} ({data['done_reason']})"
+            bot_answer = data['text']
+            return True, bot_answer
+        except rq.exceptions.JSONDecodeError as e:
+            print(f"JSON decode error. Error:{self.response.status_code}")
+            print('Input data:')
+            print(self.data_input)
+            print(self.response.text)
+            return False, f"JSON decode error. Error:{self.response.status_code}"

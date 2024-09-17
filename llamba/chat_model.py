@@ -4,6 +4,7 @@ from http import HTTPStatus
 class AbstractChatModel:
     def __init__(self): 
         self.url = ""
+        self.headers = {}
 
     def get_system_message(self):
         return 'I want you to act a gerontology expert. Answer prompts shortly, without emotions and greetings, and in the same language they are asked.'
@@ -13,31 +14,23 @@ class AbstractChatModel:
             "messages": self.get_system_message() + [{'role': 'user', 'content': f'{prompt}'}]
         }
         self.data_input = data_input
+    
+    def handle_response(self): pass
 
     def query(self, prompt: str):
         self.prepare_query(prompt)
         num_tries = 3
+        print(self.data_input)
         try:
             for _ in range(num_tries):
-                response = rq.post(self.url, 
+                self.response = rq.post(self.url, 
                                    json=self.data_input,
+                                   headers=self.headers,
                                    timeout=30)
-                response.raise_for_status()
-                if response.status_code != HTTPStatus.METHOD_NOT_ALLOWED:
+                self.response.raise_for_status()
+                if self.response.status_code != HTTPStatus.METHOD_NOT_ALLOWED:
                     break
         except Exception as e:
             print(e)
             return False, "Incorrect bot configuration."
-        
-        try:
-            data = response.json()
-            if response.status_code != HTTPStatus.OK:
-                return False, f"Error:{response.status_code} ({data['done_reason']})"
-            bot_answer = data['response']
-            return True, bot_answer
-        except rq.exceptions.JSONDecodeError as e:
-            print(f"JSON decode error. Error:{response.status_code}")
-            print('Input data:')
-            print(self.data_input)
-            print(response.text)
-            return False, f"JSON decode error. Error:{response.status_code}"
+        return self.handle_response()
