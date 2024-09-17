@@ -1,80 +1,35 @@
-import json
 import requests as rq
+from http import HTTPStatus
 
 class AbstractChatModel:
-    def __init__(self): pass
+    def __init__(self): 
+        self.url = ""
+        self.headers = {}
+
     def get_system_message(self):
-        return [{
-            'role': 'system',
-            'content':
-                '''
-                I want you to act as an expert in gerontology. Answer prompts in the same language they are asked.
-                '''
-        }]
+        return 'I want you to act a gerontology expert. Answer prompts shortly, without emotions and greetings, and in the same language they are asked.'
 
     def prepare_query(self, prompt):
         data_input = {
             "messages": self.get_system_message() + [{'role': 'user', 'content': f'{prompt}'}]
         }
         self.data_input = data_input
+    
+    def handle_response(self): pass
 
-    def query(self, prompt):
+    def query(self, prompt: str):
         self.prepare_query(prompt)
-        return f'You have a very nice prompt: {self.data_input}.'
-
-class ChatbaseModel(AbstractChatModel):
-    def __init__(self, url: str, api_key: str, chatbot_id: str):
-        super(ChatbaseModel, self).__init__()
-        self.url = url
-        self.api_key = api_key
-        self.chatbot_id = chatbot_id
-        self.headers = {
-            'Authorization': f'Bearer {self.api_key}',
-            'Content-Type': 'application/json',
-            'accept': 'application/json',
-            'charset': 'utf-8'
-        }
-
-    def prepare_query(self, prompt):
-        super(ChatbaseModel, self).__init__()
-        data_input = {
-            "messages": self.get_system_message() + [{'role': 'user', 'content': f'{prompt}'}],
-            "chatbotId": self.chatbot_id,
-            "stream": False,
-            "temperature": 0
-        }
-        self.data_input = data_input
-
-    def query(self, prompt):
-        self.prepare_query(prompt)
-        data_input_json = json.dumps(self.data_input).encode('utf-8')
-        
         num_tries = 3
-
         try:
             for _ in range(num_tries):
-                response = rq.post(self.url, headers=self.headers, data=data_input_json, timeout=30)
-                if response.status_code != 405:
+                self.response = rq.post(self.url, 
+                                   json=self.data_input,
+                                   headers=self.headers,
+                                   timeout=30)
+                self.response.raise_for_status()
+                if self.response.status_code != HTTPStatus.METHOD_NOT_ALLOWED:
                     break
-        except:
-            return False, "Incorrect bot configuration. Check API key, ID, URL."
-
-        try:
-            data = response.json()
-            if response.status_code != 200:
-                return False, f"Error:{response.status_code}({data['message']})"
-            bot_answer = data['text']
-            return True, bot_answer
-        except rq.exceptions.JSONDecodeError as e:
-            print(f"JSON decode error. Error:{response.status_code}")
-            print('Input data:')
-            print(data_input_json)
-            print(response.text)
-            return False, f"JSON decode error. Error:{response.status_code}"
-
-class LocalhostModel(AbstractChatModel):
-    def __init__(self, url: str):
-        super(LocalhostModel, self).__init__()
-        self.url = url
-
-    
+        except Exception as e:
+            print(e)
+            return False, "Incorrect bot configuration."
+        return self.handle_response()
