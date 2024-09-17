@@ -20,7 +20,6 @@ class AbstractChatModel:
     def query(self, prompt: str):
         self.prepare_query(prompt)
         num_tries = 3
-        print(self.data_input)
         try:
             for _ in range(num_tries):
                 self.response = rq.post(self.url, 
