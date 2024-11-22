@@ -1,31 +1,39 @@
 import requests as rq
 from http import HTTPStatus
 
-from llamba.chat_model import AbstractChatModel
+from .chat_model import AbstractChatModel
 
 class OllamaModel(AbstractChatModel):
-    def __init__(self, model: str, url="http://127.0.0.1:11434/", endpoint="api/generate"):
+    def __init__(self, model: str, url="http://127.0.0.1:11434/", endpoint="api/generate", num_threads=1, check_connection_timeout=60, request_timeout=60):
         super(OllamaModel, self).__init__()
         self.url = url + endpoint
         self.model = model
+        self.num_threads = num_threads
+        self.check_connection_timeout = check_connection_timeout
+        self.request_timeout = request_timeout
 
     def check_connection(self):
         r = rq.post(
             self.url,
             json={"model": self.model},
+            timeout=self.check_connection_timeout
         )
         r.raise_for_status()
         data = r.json()
         if data['done'] != True:
             return False
         return True
+    
+    def query(self, prompt: str, timeout=60):
+        return super().query(prompt, self.request_timeout)
 
     def prepare_query(self, prompt: str):
         data_input = {
             "model": self.model,
             "prompt": prompt,
             "system": self.get_system_message(),
-            "stream": False
+            "stream": False,
+            "num_threads": self.num_threads
         }
         self.data_input = data_input
     

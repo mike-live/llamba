@@ -1,7 +1,7 @@
 import requests as rq
 from http import HTTPStatus
 
-from llamba.chat_model import AbstractChatModel
+from .chat_model import AbstractChatModel
 
 class ChatbaseModel(AbstractChatModel):
     def __init__(self, url: str, api_key: str, chatbot_id: str):

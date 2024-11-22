@@ -1,4 +1,4 @@
-from llamba.chat_model import AbstractChatModel
+from llamba.chatmodels.chat_model import AbstractChatModel
 from llamba.bioage_model import BioAgeModel
 from llamba.connector import LlambaConnector
 import torch
