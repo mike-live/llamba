@@ -57,7 +57,7 @@ You can download the sources and install them via Poetry by running the followin
 To test that the library works, you can run the following notebook sample:
 
 ```python
-from llamba.chat_model import BaseModel
+from llamba.chatmodels.chat_model import AbstractChatModel
 from llamba.bioage_model import BioAgeModel
 from llamba.connector import LlambaConnector
 import torch
@@ -87,7 +87,8 @@ model = DummyBioAgeModel()
 bioage_model = BioAgeModel(model)
 
 # Prepare a Chatbot model
-chat_model = BaseModel()
+class DummyChatModel(AbstractChatModel): pass
+chat_model = DummyChatModel()
 connector = LlambaConnector(bioage_model=bioage_model, chat_model=chat_model)
 
 res = connector.analyze(data)
@@ -130,9 +131,10 @@ Currently, there is implementation for a Chatbase chatbot. You can find the usag
 
 ## TODO
 
-1. Adding a more convenient example with a wrapper for llama running on the localhost.
-2. Adding a dummy example for testing purposes.
-3. Adding wrapper for ChatGPT model.
+1. Add a wrapper for a locally stored model (huggingface integration).
+2. Add wrapper for ChatGPT.
+3. Provide more configurability for all the wrappers.
+4. Add more models to the [models](https://github.com/SermanVS/txai_omics_3) library.
 
 ## License
 
