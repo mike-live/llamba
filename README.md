@@ -46,9 +46,9 @@ The diagram above explains the expected workflow of llamba:
 
 ## Installation
 
-You can download the sources, build them using `wheel` and install a local package, but the more common way is to use `pip`:
+You can download the sources and install them via Poetry by running the following command in the library's root directory:
 
-`pip install llamba`
+`poetry install`
 
 ## Usage
 
@@ -57,7 +57,7 @@ You can download the sources, build them using `wheel` and install a local packa
 To test that the library works, you can run the following notebook sample:
 
 ```python
-from llamba.chat_model import BaseModel
+from llamba.chatmodels.chat_model import AbstractChatModel
 from llamba.bioage_model import BioAgeModel
 from llamba.connector import LlambaConnector
 import torch
@@ -87,20 +87,27 @@ model = DummyBioAgeModel()
 bioage_model = BioAgeModel(model)
 
 # Prepare a Chatbot model
-chat_model = BaseModel()
+class DummyChatModel(AbstractChatModel): pass
+chat_model = DummyChatModel()
 connector = LlambaConnector(bioage_model=bioage_model, chat_model=chat_model)
 
 res = connector.analyze(data)
 print(res['analysis'])
 ```
 
+You can also run a test by executing the following command in the library root directory:
+
+`pytest`
+
 ### Locally hosted LLM
 
-A popular solution is to run an LLM on localhost (like [ollama](https://ollama.com/)), so we are working on implementing the support for it.
+A popular solution is to run an LLM on localhost (like [ollama](https://ollama.com/)), so we have implemented the support for it.
 
-```python
-WIP
-```
+. Run `ollama serve` in your terminal.
+
+. In a separate terminal, run `ollama run <model_name>`, where `<model_name>` is a name of one of the support ollama models.
+
+. Proceed with creating a workflow as shown in the [Ollama sample](./samples/immunoage_meet_ollama.ipynb) notebook.
 
 ### Locally stored LLM
 
@@ -112,7 +119,7 @@ WIP
 
 ### Externally hosted LLM
 
-Currently, there is implementation for a Chatbase chatbot. You can find the usage example in the [Sample analysis](./samples/sample_analysis.ipynb) notebook.
+Currently, there is implementation for a Chatbase chatbot. You can find the usage example in the [Chatbase analysis](./samples/immunoage_meet_chatbase.ipynb) notebook.
 
 ## Dependencies
 
@@ -124,9 +131,10 @@ Currently, there is implementation for a Chatbase chatbot. You can find the usag
 
 ## TODO
 
-1. Adding a more convenient example with a wrapper for llama running on the localhost.
-2. Adding a dummy example for testing purposes.
-3. Adding wrapper for ChatGPT model.
+1. Add a wrapper for a locally stored model (huggingface integration).
+2. Add wrapper for ChatGPT.
+3. Provide more configurability for all the wrappers.
+4. Add more models to the [models](https://github.com/SermanVS/txai_omics_3) library.
 
 ## License
 

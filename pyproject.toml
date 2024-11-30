@@ -1,0 +1,48 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+name = "llamba"
+version = "0.1.11"
+description = "A library to merge BioAge models with LLMs!"
+readme = "README.md"
+authors = [
+  "Sergei Tikhomirov <sergey.zr.co.uk@gmail.com>", 
+  "Mike Krivonosov <krivonosov@itmm.unn.ru>"
+]
+maintainers = [
+    "Sergei Tikhomirov <sergey.zr.co.uk@gmail.com>", 
+    "Mike Krivonosov <krivonosov@itmm.unn.ru>"
+]
+repository = "https://github.com/mike-live/llamba"
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+numpy = "^1" 
+pandas = "2.2.3"
+torch = {version = "2.3.1+cpu", source = "torch"}
+torchvision = {version = "0.18.1+cpu", source = "torch"}
+torchaudio = {version = "2.3.1+cpu", source = "torch"}
+pytorch_lightning = "2.1.4"
+scipy = "1.12.0"
+omegaconf = "*"
+scikit-learn = "1.5.2"
+shap = "0.46.0"
+pytorch-widedeep = "1.1.1" 
+seaborn = "*"
+torchmetrics = "1.2.1"
+openpyxl = "3.1.5"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "torch"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "8.3.3"

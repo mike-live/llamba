@@ -4,7 +4,7 @@ import shap
 import torch
 import numpy as np
 
-from llamba.chat_model import AbstractChatModel
+from llamba.chatmodels.chat_model import AbstractChatModel
 from llamba.bioage_model import BioAgeModel
 from llamba.plots import kde_plot
 
