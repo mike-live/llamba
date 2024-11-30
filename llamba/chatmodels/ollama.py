@@ -4,7 +4,8 @@ from http import HTTPStatus
 from .chat_model import AbstractChatModel
 
 class OllamaModel(AbstractChatModel):
-    def __init__(self, model: str, url="http://127.0.0.1:11434/", endpoint="api/generate", num_threads=1, check_connection_timeout=60, request_timeout=60):
+    def __init__(self, model: str, url="http://127.0.0.1:11434/", endpoint="api/generate", 
+                 num_threads=1, check_connection_timeout=60, request_timeout=60):
         super(OllamaModel, self).__init__()
         self.url = url + endpoint
         self.model = model
@@ -24,7 +25,7 @@ class OllamaModel(AbstractChatModel):
             return False
         return True
     
-    def query(self, prompt: str, timeout=60):
+    def query(self, prompt: str):
         return super().query(prompt, self.request_timeout)
 
     def prepare_query(self, prompt: str):
@@ -33,7 +34,9 @@ class OllamaModel(AbstractChatModel):
             "prompt": prompt,
             "system": self.get_system_message(),
             "stream": False,
-            "num_threads": self.num_threads
+            "options": {
+                "num_threads": self.num_threads
+            }   
         }
         self.data_input = data_input
     

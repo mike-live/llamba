@@ -42,7 +42,7 @@ priority = "primary"
 [[tool.poetry.source]]
 name = "torch"
 url = "https://download.pytorch.org/whl/cpu"
-priority = "supplemental"
+priority = "explicit"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "8.3.3"
