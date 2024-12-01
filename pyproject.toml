@@ -19,7 +19,7 @@ maintainers = [
 repository = "https://github.com/mike-live/llamba"
 
 [tool.poetry.dependencies]
-python = "3.11.*"
+python = "^3.11.*"
 numpy = "^1" 
 pandas = "2.2.3"
 torch = {version = "2.3.1+cpu", source = "torch"}
