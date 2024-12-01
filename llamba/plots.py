@@ -11,7 +11,7 @@ def kde_plot(my_acceleration, bg_data):
     plt.grid(True)
     plt.show()
 
-def feat_plot(feature, age, my_feature_value, **kwargs):
+def feat_plot(feature, age, **kwargs):
     sd = np.std(feature)
 
     plt.scatter(age, feature)
