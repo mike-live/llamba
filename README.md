@@ -59,7 +59,7 @@ You can download the sources and install them via Poetry by running the followin
 To test that the library works, you can run the following notebook sample:
 
 ```python
-from llamba.chatmodels.chat_model import AbstractChatModel
+from llamba_framework.chatmodels.chat_model import AbstractChatModel
 from llamba.bioage_model import BioAgeModel
 from llamba.connector import LlambaConnector
 import torch
