@@ -1,5 +1,5 @@
 from llamba_framework.chatmodels.chat_model import AbstractChatModel
-from llamba.bioage_model import BioAgeModel
+from llamba_library.llamba_library.bioage_model import BioAgeModel
 from llamba.connector import LlambaConnector
 import torch
 from torch import nn
