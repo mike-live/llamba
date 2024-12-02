@@ -41,8 +41,7 @@ class LlambaConnector:
         feats = data.drop(['Age', 'bio_age'], axis=1).columns.to_list()
         
         self.generate_prompts(n=2, data=data, feats=feats, explainer=explainer)
-        for prompt in self.prompts:
-            self.query_prompt(prompt)
+        self.query_prompts()
 
         return {"analysis": self.answer, "acceleration": acceleration[0], "features": feats}    
 
@@ -72,8 +71,9 @@ class LlambaConnector:
             self.prompts.append(f'What is {feats[i]}? What does {level} level of {feats[i]} mean?')
         return self.prompts
 
-    def query_prompt(self, prompt):
-        res = self.chat_model.query(prompt=prompt)[1]
-        self.answer += res
-        self.answer += '\n\n'
-        return res
+    def query_prompts(self):
+        for prompt in self.prompts:
+            res = self.chat_model.query(prompt=prompt)[1]
+            self.answer += res
+            self.answer += '\n\n'
+        return self.answer

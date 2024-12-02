@@ -29,7 +29,7 @@ The diagram above explains the expected workflow of llamba:
 5. Explainer returns the explanation with some information about the most important features.
 6. User receives an explanation with some graphs which demonstrate how his result compares with other peoples'.
 
-This is the library part of llamba that is responsible for communication with a BioAge model and integration with the [llamba framework](https://github.com/SermanVS/llamba-framework).
+This is the framework part of llamba that is responsible for communication with a BioAge model and integration with the [llamba library](https://github.com/SermanVS/llamba_library).
 
 ## Table of contents
 
@@ -59,8 +59,8 @@ You can download the sources and install them via Poetry by running the followin
 To test that the library works, you can run the following notebook sample:
 
 ```python
-from llamba_framework.chatmodels.chat_model import AbstractChatModel
-from llamba.bioage_model import BioAgeModel
+from llamba.chatmodels.chat_model import AbstractChatModel
+from llamba_library.bioage_model import BioAgeModel
 from llamba.connector import LlambaConnector
 import torch
 from torch import nn
@@ -131,8 +131,9 @@ Currently, there is implementation for a Chatbase chatbot. You can find the usag
 
 ## TODO
 
-1. Add more models to the [models](https://github.com/SermanVS/txai_omics_3) library.
-2. Cover code with more tests.
+1. Add a wrapper for a locally stored model (huggingface integration).
+2. Add a wrapper for ChatGPT.
+3. Provide more configurability for all the wrappers.
 
 ## License
 
