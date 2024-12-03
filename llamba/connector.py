@@ -37,9 +37,8 @@ class LlambaConnector:
         
         self.answer += 'Here is some more information about your data. \n\n'
         
-        explainer = shap_dict['explainer']
         feats = data.drop(['Age', 'bio_age'], axis=1).columns.to_list()
-        sorted_values, sorted_data, sorted_feats = get_top_shap(top_n, data, feats, explainer)
+        sorted_values, sorted_data, sorted_feats = get_top_shap(top_n, data, feats, shap_dict)
         
         self.generate_prompts(top_n=top_n, data=sorted_data, feats=sorted_feats, values=sorted_values)
         self.query_prompts()
