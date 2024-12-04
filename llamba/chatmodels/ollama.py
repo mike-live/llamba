@@ -16,7 +16,12 @@ class OllamaModel(AbstractChatModel):
     def check_connection(self):
         r = rq.post(
             self.url,
-            json={"model": self.model},
+            json={
+                "model": self.model,
+                "options": {
+                    "num_thread": self.num_threads
+                }
+              },
             timeout=self.check_connection_timeout
         )
         r.raise_for_status()
@@ -35,7 +40,7 @@ class OllamaModel(AbstractChatModel):
             "system": self.get_system_message(),
             "stream": False,
             "options": {
-                "num_threads": self.num_threads
+                "num_thread": self.num_threads
             }   
         }
         self.data_input = data_input
