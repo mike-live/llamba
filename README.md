@@ -29,7 +29,7 @@ The diagram above explains the expected workflow of llamba:
 5. Explainer returns the explanation with some information about the most important features.
 6. User receives an explanation with some graphs which demonstrate how his result compares with other peoples'.
 
-This is the framework part of llamba that is responsible for communication with a BioAge model and integration with the [llamba library](https://github.com/SermanVS/llamba_library).
+This is the framework part of llamba that is responsible for communication with an LLM model and integration with the [llamba library](https://github.com/SermanVS/llamba_library).
 
 ## Table of contents
 
