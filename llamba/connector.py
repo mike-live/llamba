@@ -7,7 +7,6 @@ import numpy as np
 from llamba.chatmodels.chat_model import AbstractChatModel
 from llamba_library.bioage_model import BioAgeModel
 from llamba_library.plots import kde_plot
-from llamba_library.functions import get_top_shap
 
 class LlambaConnector:
     def __init__(self, bioage_model: BioAgeModel, chat_model: AbstractChatModel):
@@ -38,9 +37,9 @@ class LlambaConnector:
         self.answer += 'Here is some more information about your data. \n\n'
         
         feats = data.drop(['Age', 'bio_age'], axis=1).columns.to_list()
-        sorted_values, sorted_data, sorted_feats = get_top_shap(top_n, data, feats, shap_dict)
+        top_shap = self.bioage_model.get_top_shap(top_n, data, feats, shap_dict)
         
-        self.generate_prompts(top_n=top_n, data=sorted_data, feats=sorted_feats, values=sorted_values)
+        self.generate_prompts(top_n=top_n, data=top_shap['data'], feats=top_shap['feats'], values=top_shap['values'])
         self.query_prompts()
 
         return {"analysis": self.answer, "acceleration": acceleration[0], "features": feats}    
