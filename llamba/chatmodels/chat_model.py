@@ -11,7 +11,8 @@ class AbstractChatModel:
 
     def prepare_query(self, prompt):
         data_input = {
-            "messages": self.get_system_message() + [{'role': 'user', 'content': f'{prompt}'}]
+            "messages": [{'role': 'system', 
+                          'content': self.get_system_message()}] + [{'role': 'user', 'content': f'{prompt}'}]
         }
         self.data_input = data_input
     
