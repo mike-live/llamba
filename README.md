@@ -1,3 +1,8 @@
+<p align="center">
+<a href='https://github.com/MShawon/github-clone-count-badge'><img alt='GitHub Clones' src='https://img.shields.io/badge/dynamic/json?color=success&label=Clone&query=count&url=https://gist.githubusercontent.com/SermanVS/d2292d1802b89756db3f43dbb01e6735/raw/clone.json&logo=github'></a>
+</p>
+
+
 # llamba &mdash; a bridge between a BioAge estimator and explainer
 
 
@@ -29,6 +34,7 @@ The diagram above explains the expected workflow of llamba:
 5. Explainer returns the explanation with some information about the most important features.
 6. User receives an explanation with some graphs which demonstrate how his result compares with other peoples'.
 
+This is the framework part of llamba that is responsible for communication with an LLM model and integration with the [llamba library](https://github.com/SermanVS/llamba_library).
 
 ## Table of contents
 
@@ -36,6 +42,7 @@ The diagram above explains the expected workflow of llamba:
 - [Installation](#installation)
 - [Usage](#usage)
 - [Dependencies](#dependencies)
+- [TODO](#todo)
 - [License](#license)
 
 ## Main features
@@ -58,7 +65,7 @@ To test that the library works, you can run the following notebook sample:
 
 ```python
 from llamba.chatmodels.chat_model import AbstractChatModel
-from llamba.bioage_model import BioAgeModel
+from llamba_library.bioage_model import BioAgeModel
 from llamba.connector import LlambaConnector
 import torch
 from torch import nn
@@ -105,8 +112,6 @@ A popular solution is to run an LLM on localhost (like [ollama](https://ollama.c
 
 . Run `ollama serve` in your terminal.
 
-. In a separate terminal, run `ollama run <model_name>`, where `<model_name>` is a name of one of the support ollama models.
-
 . Proceed with creating a workflow as shown in the [Ollama sample](./samples/immunoage_meet_ollama.ipynb) notebook.
 
 ### Locally stored LLM
@@ -132,9 +137,8 @@ Currently, there is implementation for a Chatbase chatbot. You can find the usag
 ## TODO
 
 1. Add a wrapper for a locally stored model (huggingface integration).
-2. Add wrapper for ChatGPT.
+2. Add a wrapper for ChatGPT.
 3. Provide more configurability for all the wrappers.
-4. Add more models to the [models](https://github.com/SermanVS/txai_omics_3) library.
 
 ## License
 
