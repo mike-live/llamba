@@ -18,7 +18,7 @@ class AbstractChatModel:
     
     def handle_response(self): pass
 
-    def query(self, prompt: str, timeout=60):
+    def query(self, prompt: str, timeout: int = 60):
         self.prepare_query(prompt)
         num_tries = 3
         try:
