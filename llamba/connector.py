@@ -1,5 +1,6 @@
 import pandas as pd
 import torch
+from typing import Callable
 
 from llamba.chatmodels.chat_model import AbstractChatModel
 from llamba.util.disease import Disease
@@ -79,11 +80,11 @@ class LlambaConnector:
         return answer
     
     # Analysis
-    def advanced_analysis(self, data: pd.DataFrame):
-        self.feats = data.drop(['Age', 'bio_age'], axis=1).columns.to_list()
-        self.top_shap = self.bioage_model.get_top_shap(self.top_n, data, self.feats, self.shap_dict)
+    def advanced_analysis(self, data: pd.DataFrame, train_data: pd.DataFrame, predict_func: Callable):
+        feats = data.drop(['Age', 'bio_age'], axis=1).columns.to_list()
+        self.top_shap = self.bioage_model.get_top_shap(self.top_n, data, feats, train_data, predict_func)
         self.feat_prompts = self.produce_feat_analysis_prompts(top_n=self.top_n, data=self.top_shap['data'], feats=self.top_shap['feats'], values=self.top_shap['values'])
-        return {"analysis": self.answer, "acceleration": self.acceleration[0], "features": self.feats}   
+        return {"analysis": self.answer, "acceleration": self.acceleration[0], "features": feats}   
     
     def risk_analysis(self):
         self.risk_prompts = self.produce_risk_prompts()
@@ -114,14 +115,15 @@ class LlambaConnector:
         data['bio_age'] = self.bioage_model.inference(data=data.drop(['Age'], axis=1), device=device)
         self.bio_age = data['bio_age'].values[0]
         self.acceleration = data['bio_age'].values - data['Age'].values
-        self.shap_dict = kwargs.get('shap_dict', None)
         self.top_n = kwargs.get('top_n', None)
+        train_data = kwargs.get('train_data', None)
+        predict_func = kwargs.get('predict_func', None)
 
         self.answer += self.produce_basic_answer()
         # If we want to get info about features like what they mean and what their increased/decreased levels mean
         if analyze_feats:
-            if self.shap_dict and self.top_n:
-                self.advanced_analysis(data)
+            if not train_data.empty and self.top_n and predict_func != None:
+                self.advanced_analysis(data, train_data, predict_func)
                 self.answer += self.produce_advanced_answer()
                 if analyze_risks:
                     self.risk_analysis()
