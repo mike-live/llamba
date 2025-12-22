@@ -110,9 +110,9 @@ You can also run a test by executing the following command in the library root d
 
 A popular solution is to run an LLM on localhost (like [ollama](https://ollama.com/)), so we have implemented the support for it.
 
-. Run `ollama serve` in your terminal.
+1. Run `ollama serve` in your terminal.
 
-. Proceed with creating a workflow as shown in the [Ollama sample](./samples/immunoage_meet_ollama.ipynb) notebook.
+2. Proceed with creating a workflow as shown in the [Ollama sample](./samples/immunoage_meet_ollama.ipynb) notebook.
 
 ### Locally stored LLM
 

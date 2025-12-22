@@ -5,13 +5,17 @@ from .chat_model import AbstractChatModel
 
 class OllamaModel(AbstractChatModel):
     def __init__(self, model: str, url="http://127.0.0.1:11434/", endpoint="api/generate", 
-                 num_threads=1, check_connection_timeout=60, request_timeout=60):
+                 num_threads=1, 
+                 check_connection_timeout=60, 
+                 request_timeout=60,
+                 **kwargs):
         super(OllamaModel, self).__init__()
         self.url = url + endpoint
         self.model = model
         self.num_threads = num_threads
         self.check_connection_timeout = check_connection_timeout
         self.request_timeout = request_timeout
+        self.think = kwargs.get('think', None)
 
     def check_connection(self):
         r = rq.post(
@@ -43,6 +47,8 @@ class OllamaModel(AbstractChatModel):
                 "num_thread": self.num_threads
             }   
         }
+        if not self.think == None:
+            data_input["think"] = self.think
         self.data_input = data_input
     
     def handle_response(self):        

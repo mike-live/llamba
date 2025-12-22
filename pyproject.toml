@@ -2,10 +2,9 @@
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-
 [tool.poetry]
 name = "llamba"
-version = "0.1.11"
+version = "0.1.12"
 description = "A library to merge BioAge models with LLMs!"
 readme = "README.md"
 authors = [
@@ -26,6 +25,8 @@ scipy = "^1.12.0"
 omegaconf = "*"
 scikit-learn = "1.5.2"
 openpyxl = "3.1.5"
+requests = "^2.32.5"
+qdrant-client = "^1.16.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
