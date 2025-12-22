@@ -16,7 +16,6 @@ maintainers = [
     "Mike Krivonosov <krivonosov@itmm.unn.ru>"
 ]
 repository = "https://github.com/mike-live/llamba"
-package-mode = false
 
 [tool.poetry.dependencies]
 python = "3.11.*"

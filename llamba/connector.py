@@ -7,6 +7,7 @@ from llamba.util.disease import Disease
 from llamba_library.bioage_model import BioAgeModel
 from llamba.util.disease import inflammatory_disease_list
 from llamba.util.clock import Clock
+from llamba.util.condition import Condition
 from llamba.util.document_repo import DocumentRepoQdrant
 
 class LlambaConnector:
@@ -23,6 +24,9 @@ class LlambaConnector:
     
     def specify_db(self, document_repo: DocumentRepoQdrant):
         self.document_repo = document_repo
+
+    def specify_conditions(self, condition: str, duration: str):
+        self.condition = Condition(condition, duration)
 
     # Prompt creation
     def produce_feat_analysis_prompts(self, top_n, data, feats, values):
@@ -53,7 +57,9 @@ class LlambaConnector:
         return disease_prompt
     
     def produce_recommendations_prompt(self):
-        return f"Given the analysis results that will follow, what would you recommend to normalize the results and lower the chance of disease occurrence? Explain each recommendation in detail. \n The analysis: {self.answer}"
+        return f"Given the analysis results that will follow, what would you recommend to normalize the results and lower the chance of disease occurrence? \
+            Take into account that the person has worked in {self.condition.name} for {self.condition.duration}. \
+            Explain each recommendation in detail. \n The analysis: {self.answer}"
     
     # Answer construction
     def produce_basic_answer(self):
@@ -82,7 +88,7 @@ class LlambaConnector:
     # Analysis
     def advanced_analysis(self, data: pd.DataFrame, train_data: pd.DataFrame, predict_func: Callable):
         feats = data.drop(['Age', 'bio_age'], axis=1).columns.to_list()
-        self.top_shap = self.bioage_model.get_top_shap(self.top_n, data, feats, train_data, predict_func)
+        self.top_shap = self.bioage_model.get_top_shap(self.top_n, data.drop(['bio_age'], axis=1), feats, train_data, predict_func)
         self.feat_prompts = self.produce_feat_analysis_prompts(top_n=self.top_n, data=self.top_shap['data'], feats=self.top_shap['feats'], values=self.top_shap['values'])
         return {"analysis": self.answer, "acceleration": self.acceleration[0], "features": feats}   
     
