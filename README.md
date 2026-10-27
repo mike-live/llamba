@@ -57,6 +57,10 @@ You can download the sources and install them via Poetry by running the followin
 
 `poetry install`
 
+Install with vector search library:
+
+`poetry install -E vec-search`
+
 ## Usage
 
 ### Test
