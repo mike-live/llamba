@@ -1,9 +1,9 @@
 import requests as rq
 from http import HTTPStatus
 
-from .chat_model import AbstractChatModel
+from .chat_model import BaseChatModel
 
-class ChatbaseModel(AbstractChatModel):
+class ChatbaseModel(BaseChatModel):
     def __init__(self, url: str, api_key: str, chatbot_id: str):
         super(ChatbaseModel, self).__init__()
         self.url = url
@@ -19,7 +19,7 @@ class ChatbaseModel(AbstractChatModel):
     def prepare_query(self, prompt: str):
         data_input = {
             "messages": [{'role': 'system', 
-                          'content': self.get_system_message()}] + 
+                          'content': self.system_prompt}] + 
                           [{'role': 'user', 
                             'content': f'{prompt}'}],
             "chatbotId": self.chatbot_id,

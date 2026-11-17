@@ -1,18 +1,21 @@
 import requests as rq
 from http import HTTPStatus
+from .base_config import *
 
-class AbstractChatModel:
+class BaseChatModel:
     def __init__(self): 
         self.url = ""
         self.headers = {}
+        self._system_prompt = system_prompt
 
-    def get_system_message(self):
-        return 'I want you to act a gerontology expert. Answer prompts shortly, without emotions and greetings, and in the same language they are asked.'
+    @property
+    def system_prompt(self):
+        return self._system_prompt
 
     def prepare_query(self, prompt):
         data_input = {
             "messages": [{'role': 'system', 
-                          'content': self.get_system_message()}] + [{'role': 'user', 'content': f'{prompt}'}]
+                          'content': self.system_prompt}] + [{'role': 'user', 'content': f'{prompt}'}]
         }
         self.data_input = data_input
     

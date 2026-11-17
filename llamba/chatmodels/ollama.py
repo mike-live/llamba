@@ -1,9 +1,9 @@
 import requests as rq
 from http import HTTPStatus
 
-from .chat_model import AbstractChatModel
+from .chat_model import BaseChatModel
 
-class OllamaModel(AbstractChatModel):
+class OllamaModel(BaseChatModel):
     def __init__(self, model: str, url="http://127.0.0.1:11434/", endpoint="api/generate", 
                  num_threads=1, 
                  check_connection_timeout=60, 
@@ -41,7 +41,7 @@ class OllamaModel(AbstractChatModel):
         data_input = {
             "model": self.model,
             "prompt": prompt,
-            "system": self.get_system_message(),
+            "system": self.system_prompt,
             "stream": False,
             "options": {
                 "num_thread": self.num_threads
